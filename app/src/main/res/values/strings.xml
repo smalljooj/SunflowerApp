@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SunFlower</string>
+    <string name="title_activity_black_splash">BlackSplashActivity</string>
+
+    <string name="title1">Jogue jogos divertidos e \nempolgantes</string>
+    <string name="title2">Descubra um mundo de \ndiversão e aventura!</string>
+    <string name="title3">Se desafie e deixe a \nimaginação voar!</string>
+    <string name="Go">Vamos!</string>
+    <string name="level">Nível</string>
+    <string name="profile">Perfil</string>
+    <string name="game1">Jogo 1</string>
+    <string name="image_icon1">Urso</string>
+    <string name="image_icon2">Menino Urso</string>
+    <string name="image_icon3">Coelhinha</string>
+    <string name="image_icon4">Coelhinha Cinza</string>
+    <string name="image_icon5">Coelhinha Azul</string>
+    <string name="image_icon6">Menino</string>
+</resources>

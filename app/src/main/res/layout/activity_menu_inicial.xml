@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/bege"
+    android:keepScreenOn="true"
+    android:forceDarkAllowed="false">
+
+    <TextView
+        android:id="@+id/nomeJogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:text="SEQUÊNCIA\nDE\nCORES"
+        android:fontFamily="casual"
+        android:textSize="35sp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/iniciar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button"
+        android:hapticFeedbackEnabled="true"
+        android:paddingStart="25dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="7dp"
+        android:text="Iniciar jogo"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nomeJogo"
+        app:layout_constraintVertical_bias="0.197" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/sair"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_button"
+        android:hapticFeedbackEnabled="true"
+        android:paddingStart="25dp"
+        android:paddingTop="7dp"
+        android:paddingEnd="25dp"
+        android:paddingBottom="7dp"
+        android:text="Sair"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nomeJogo"
+        app:layout_constraintVertical_bias="0.795" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
