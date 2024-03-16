@@ -13,6 +13,11 @@
         android:theme="@style/Theme.SunFlower"
         tools:targetApi="31">
         <activity
+            android:name=".games.memoria.Memoria"
+            android:exported="false"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/Theme.JogoDaMemoria" />
+        <activity
             android:name=".games.puzzle.Tela3"
             android:exported="false" />
         <activity
@@ -20,8 +25,7 @@
             android:exported="false" />
         <activity
             android:name=".games.puzzle.Tela1"
-            android:exported="false" >
-        </activity>
+            android:exported="false"></activity>
         <activity
             android:name=".games.sequenciacores.BlackSplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -31,8 +35,7 @@
             android:name=".games.sequenciacores.MenuInicial"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:exported="false"
-            android:screenOrientation="landscape">
-        </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".games.sequenciacores.TelaJogo"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -45,7 +48,6 @@
             android:theme="@style/Theme.SplashScreen.MySplash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -38,10 +38,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import br.edu.ifpb.sunflower.data.ImagesSource
 import br.edu.ifpb.sunflower.models.ImageModel
+import br.edu.ifpb.sunflower.room.User
+import br.edu.ifpb.sunflower.room.viewmodels.UserViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Profile(page: MutableState<Int>) {
+fun Profile(page: MutableState<Int>, viewModel: UserViewModel) {
     var openDialog by remember { mutableStateOf(false) }
     var profileImage by remember { mutableStateOf(ImageModel(R.drawable.icon1, R.string.image_icon1)) }
     when {
@@ -87,7 +91,13 @@ fun Profile(page: MutableState<Int>) {
         Button(
             onClick = {
                 // TODO: Ismael Marinho
-                page.value = 3
+                 val user = User(name = text, icon = profileImage.image, level = 1, emotion = 10)
+
+                runBlocking {
+                    viewModel.insertUser(user)
+                    delay(500)
+                    page.value = 3
+                }
             }
         ) {
             Text(text = stringResource(R.string.Go))

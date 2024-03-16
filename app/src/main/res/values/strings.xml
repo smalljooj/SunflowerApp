@@ -6,8 +6,10 @@
     <string name="title2">Descubra um mundo de \ndiversão e aventura!</string>
     <string name="title3">Se desafie e deixe a \nimaginação voar!</string>
     <string name="Go">Vamos!</string>
+    <string name="save">Salvar</string>
     <string name="level">Nível</string>
-    <string name="profile">Perfil</string>
+    <string name="player">Jogador</string>
+    <string name="name">Nome</string>
     <string name="game1">Jogo 1</string>
     <string name="image_icon1">Urso</string>
     <string name="image_icon2">Menino Urso</string>
@@ -15,4 +17,6 @@
     <string name="image_icon4">Coelhinha Cinza</string>
     <string name="image_icon5">Coelhinha Azul</string>
     <string name="image_icon6">Menino</string>
+    <string name="icon">Icon</string>
+    <string name="menino_urso_raivoso">Menino Urso Raivoso</string>
 </resources>

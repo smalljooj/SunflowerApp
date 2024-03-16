@@ -9,4 +9,11 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
         <item name="postSplashScreenTheme">@style/Theme.SunFlower</item>
     </style>
+
+    <style name="Base.Theme.JogoDaMemoria" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:colorBackground">@color/azul3</item>
+    </style>
+    <style name="Theme.JogoDaMemoria" parent="Base.Theme.JogoDaMemoria" />
 </resources>

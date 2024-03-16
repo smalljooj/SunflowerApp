@@ -16,12 +16,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,31 +39,56 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import br.edu.ifpb.sunflower.games.memoria.Memoria
 import br.edu.ifpb.sunflower.games.puzzle.Tela1
 import br.edu.ifpb.sunflower.games.sequenciacores.MenuInicial
 import br.edu.ifpb.sunflower.models.ImageModel
+import br.edu.ifpb.sunflower.models.UserModel
+import br.edu.ifpb.sunflower.room.User
+import br.edu.ifpb.sunflower.room.viewmodels.UserViewModel
 
 @Composable
-fun Home() {
+fun Home(viewModel: UserViewModel) {
+    var state  = viewModel.state
+
     Column {
-        Top()
+        Top(viewModel)
         Spacer(modifier = Modifier.height(50.dp))
         Body()
     }
 }
 
 @Composable
-fun Top() {
-    val level = 1
+fun Top(viewModel: UserViewModel) {
     var openDialog by remember { mutableStateOf(false) }
-    var profileImage by remember { mutableStateOf(ImageModel(R.drawable.icon1, R.string.image_icon1)) }
+    var state  = viewModel.state
+    var user by remember {
+        mutableStateOf(
+            UserModel(
+                name = state.user?.name ?: "",
+                level = state.user?.level ?: 1,
+                image = ImageModel(state.user?.icon ?: R.drawable.icon1, R.string.image_icon1)
+            )
+        )
+    }
     when {
         openDialog -> {
-            ProfileDialog(profileImage, {
+            ProfileDialog(user, { image: ImageModel, name: String ->
                 openDialog = false
-                profileImage = it
+                user.image = image
+                user.name = name
+                viewModel.updateUser(
+                    User(
+                        id = state.user?.id,
+                        name = user.name,
+                        icon = user.image.image,
+                        level = state.user?.level ?: 1,
+                        emotion = state.user?.emotion ?: 0
+                        )
+                )
             }, {
                 openDialog = false
             })
@@ -71,7 +100,13 @@ fun Top() {
     ) {
         Button(
             onClick = {
-              openDialog = true
+                openDialog = true
+                state = viewModel.state
+                user = UserModel(
+                    name = state.user?.name ?: "",
+                    level = state.user?.level ?: 1,
+                    image = ImageModel(state.user?.icon ?: R.drawable.icon1, R.string.image_icon1)
+                )
             },
             shape = RoundedCornerShape(50.dp),
             colors = ButtonDefaults.buttonColors(
@@ -79,8 +114,8 @@ fun Top() {
             )
         ) {
             Image(
-                painter = painterResource(profileImage.image),
-                contentDescription = stringResource(profileImage.content),
+                painter = painterResource(state.user?.icon ?: R.drawable.ic_launcher_foreground),
+                contentDescription = stringResource(R.string.icon),
                 modifier = Modifier
                     .size(50.dp)
                     .clip(CircleShape)
@@ -89,12 +124,12 @@ fun Top() {
             Spacer(modifier = Modifier.width(5.dp))
             Column {
                 Text(
-                    text = stringResource(R.string.profile),
-                    color = Color.Black
+                    text = state.user?.name ?: "user",
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Text(
-                    text = stringResource(R.string.level) + " " + level,
-                    color = Color.Black
+                    text = stringResource(R.string.level) + " " + state.user?.level ?: "1",
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -149,9 +184,19 @@ fun Body() {
            Spacer(modifier = Modifier.width(10.dp))
            Card(
                elevation = CardDefaults.cardElevation( defaultElevation = 6.dp ),
-               modifier = Modifier.size(width = 100.dp, height = 100.dp)
+               modifier = Modifier.size(width = 100.dp, height = 100.dp),
+               onClick = {
+                   val i = Intent(context, Memoria::class.java)
+                   context.startActivity(i)
+               }
            ) {
-               Text("Card")
+               Image(
+                   painter = painterResource(R.drawable.memoria),
+                   contentDescription = null,
+                   modifier = Modifier
+                       .fillMaxWidth(),
+                   contentScale = ContentScale.Crop
+               )
            }
            Spacer(modifier = Modifier.width(10.dp))
            Card(
@@ -195,20 +240,31 @@ fun GameCard(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileDialog(
-    profileIcon: ImageModel,
-    chooseIcon:(ImageModel) -> Unit,
+    user: UserModel,
+    onChange: (ImageModel, String) -> Unit,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     var openIconDialog by remember { mutableStateOf(false) }
-    var profileImage by remember { mutableStateOf(profileIcon) }
+    var profile by remember {
+        mutableStateOf(
+            UserModel(
+                name = user.name,
+                level = user.level,
+                image = user.image
+            )
+        )
+    }
+    var name  by remember { mutableStateOf(user.name) }
+    var nameEdit by remember { mutableStateOf(false) }
     when {
         openIconDialog-> {
             ProfileImageDialog({
                 openIconDialog = false
-                profileImage = it
+                profile.image = it
             })
         }
     }
@@ -236,8 +292,8 @@ fun ProfileDialog(
                    )
                ) {
                    Image(
-                       painter = painterResource(profileImage.image),
-                       contentDescription = stringResource(profileImage.content),
+                       painter = painterResource(profile.image.image),
+                       contentDescription = stringResource(profile.image.content),
                        modifier = Modifier
                            .size(150.dp)
                            .clip(CircleShape)
@@ -246,9 +302,29 @@ fun ProfileDialog(
                    )
                }
                Spacer(modifier = Modifier.height(10.dp))
-               Text(text = "Name: ")
+               TextField( 
+                   value = name, 
+                   label = { Text(stringResource(R.string.name)) },
+                   onValueChange = {
+                        name = it
+                        profile.name = name
+                    }, 
+                   modifier = Modifier
+                        .width(200.dp),
+                   keyboardOptions = KeyboardOptions.Default.copy(
+                       imeAction = ImeAction.Done
+                   )
+               )
                Spacer(modifier = Modifier.height(10.dp))
-               Text(text = "Level: ")
+               Text(text = stringResource(R.string.level) + ": " + user.level)
+               Spacer(modifier = Modifier.height(10.dp))
+               OutlinedButton(
+                   onClick = {
+                       onChange(profile.image, profile.name)
+                   },
+               ) {
+                   Text(stringResource(R.string.save))
+               }
            }
        }
    }
