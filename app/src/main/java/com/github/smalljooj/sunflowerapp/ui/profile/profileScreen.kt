@@ -42,7 +42,7 @@ import com.github.smalljooj.sunflowerapp.data.types.model.ImageModel
 fun ProfileScreen(
     goToHomeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: ProfileViewModel = viewModel()
+    viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
     if (viewModel.openDialog){
@@ -85,7 +85,8 @@ fun ProfileScreen(
         Spacer(modifier = Modifier.height(20.dp))
         Button(
             onClick = {
-                viewModel.insertUser(goToHomeScreen)
+                viewModel.insertUser()
+                goToHomeScreen()
             }
         ) {
             Text(text = stringResource(R.string.Go))

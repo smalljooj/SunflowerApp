@@ -17,4 +17,9 @@
     <string name="icon6_default">Menino</string>
     <string name="name">Nome</string>
     <string name="Go">Vamos!</string>
+    <string name="level">"Nível: %d"</string>
+    <string name="save">Salvar</string>
+    <string name="colorsequency">Jogo da Sequência de cores</string>
+    <string name="puzzle">Jogo de Puzzle</string>
+    <string name="memorygame">Jogo da memória</string>
 </resources>

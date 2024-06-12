@@ -12,6 +12,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.github.smalljooj.sunflowerapp.R
+import com.github.smalljooj.sunflowerapp.ui.home.HomeScreen
 import com.github.smalljooj.sunflowerapp.ui.loading.LoadingScreen
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileScreen
 import com.github.smalljooj.sunflowerapp.ui.welcome.WelcomeScreen
@@ -28,10 +29,6 @@ fun SunflowerApp(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController()
 ) {
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = SunflowerScreen.valueOf(
-        backStackEntry?.destination?.route?: SunflowerScreen.START.name
-    )
     Scaffold(
         modifier = modifier
     ) { innerPadding ->
@@ -67,10 +64,9 @@ fun SunflowerApp(
                         navController.navigate(route = SunflowerScreen.HOME.name)
                     }
                 )
-
             }
             composable(route = SunflowerScreen.HOME.name) {
-
+                HomeScreen()
             }
         }
     }
