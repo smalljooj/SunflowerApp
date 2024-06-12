@@ -1,22 +1,20 @@
 <resources>
-    <string name="app_name">SunFlower</string>
-    <string name="title_activity_black_splash">BlackSplashActivity</string>
-
-    <string name="title1">Jogue jogos divertidos e \nempolgantes</string>
-    <string name="title2">Descubra um mundo de \ndiversão e aventura!</string>
-    <string name="title3">Se desafie e deixe a \nimaginação voar!</string>
-    <string name="Go">Vamos!</string>
-    <string name="save">Salvar</string>
-    <string name="level">Nível</string>
-    <string name="player">Jogador</string>
+    <string name="app_name">SunflowerApp</string>
+    <string name="start">Loading</string>
+    <string name="profile">Perfil</string>
+    <string name="home">Início</string>
+    <string name="welcome">Bem vindo</string>
+    <string name="logo">"Sunflower "</string>
+    <string name="welcome_message_1">Jogue jogos divertidos e \nempolgantes</string>
+    <string name="welcome_message_2">Descubra um mundo de \ndiversão e aventura!</string>
+    <string name="welcome_message_3">Se desafie e deixe a \nimaginação voar!</string>
+    <string name="icon1_default">Urso</string>
+    <string name="icon2_default">Menino Urso</string>
+    <string name="icon2_angry">Menino Urso com raiva</string>
+    <string name="icon3_default">Coelhinha</string>
+    <string name="icon4_default">Coelhinha Cinza</string>
+    <string name="icon5_default">Coelhinha Azul</string>
+    <string name="icon6_default">Menino</string>
     <string name="name">Nome</string>
-    <string name="game1">Jogo 1</string>
-    <string name="image_icon1">Urso</string>
-    <string name="image_icon2">Menino Urso</string>
-    <string name="image_icon3">Coelhinha</string>
-    <string name="image_icon4">Coelhinha Cinza</string>
-    <string name="image_icon5">Coelhinha Azul</string>
-    <string name="image_icon6">Menino</string>
-    <string name="icon">Icon</string>
-    <string name="menino_urso_raivoso">Menino Urso Raivoso</string>
+    <string name="Go">Vamos!</string>
 </resources>

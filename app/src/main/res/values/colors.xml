@@ -6,13 +6,5 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="bege">#FFFDEFDB</color>
-    <color name="brancoFantasma">#FFF8F8FF</color>
-    <color name="vermelho">#FFFF595E</color>
-    <color name="laranja">#FFF99854</color>
-    <color name="amarelo">#FFFFCA3A</color>
-    <color name="azul">#FF1982C4</color>
-    <color name="verde">#FF8AC926</color>
-    <color name="roxo">#FF6A4C93</color>   <color name="white">#FFFFFFFF</color>
-    <color name="azul3">#84b6f4</color>
+    <color name="white">#FFFFFFFF</color>
 </resources>
