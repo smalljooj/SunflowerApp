@@ -1,27 +1,23 @@
 package com.github.smalljooj.sunflowerapp.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
-import com.github.smalljooj.sunflowerapp.R
 import com.github.smalljooj.sunflowerapp.ui.home.HomeScreen
 import com.github.smalljooj.sunflowerapp.ui.loading.LoadingScreen
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileScreen
 import com.github.smalljooj.sunflowerapp.ui.welcome.WelcomeScreen
 
-enum class SunflowerScreen(@StringRes val title: Int) {
-    START(R.string.start),
-    WELCOME(R.string.welcome),
-    PROFILE(R.string.profile),
-    HOME(R.string.home)
+enum class SunflowerScreen {
+    START,
+    WELCOME,
+    PROFILE,
+    HOME
 }
 
 @Composable

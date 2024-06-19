@@ -1,15 +1,11 @@
 package com.github.smalljooj.sunflowerapp.ui.loading
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,7 +15,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,7 +28,7 @@ fun LoadingScreen(
     goToWelcomeScreen: () -> Unit,
     goToHomeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: LoadingViewModel = viewModel()
+    viewModel: LoadingViewModel = viewModel(factory = LoadingViewModel.Factory)
 ) {
     val scope = rememberCoroutineScope()
     if (viewModel.isLoading) {
@@ -48,7 +43,6 @@ fun LoadingScreen(
                 LaunchedEffect(true) {
                     scope.launch {
                         delay(1000)
-                        goToWelcomeScreen()
                         viewModel.verifySession(
                             goToWelcomeScreen= goToWelcomeScreen,
                             goToHomeScreen = goToHomeScreen
