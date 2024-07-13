@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.github.smalljooj.sunflowerapp.ui.games.snakeGame.SnakeGameScreen
 import com.github.smalljooj.sunflowerapp.ui.home.HomeScreen
 import com.github.smalljooj.sunflowerapp.ui.loading.LoadingScreen
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileScreen
@@ -17,7 +18,8 @@ enum class SunflowerScreen {
     START,
     WELCOME,
     PROFILE,
-    HOME
+    HOME,
+    SNAKE_GAME
 }
 
 @Composable
@@ -30,7 +32,7 @@ fun SunflowerApp(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = SunflowerScreen.START.name,
+            startDestination = SunflowerScreen.SNAKE_GAME.name,
             modifier = modifier.padding(innerPadding)
         ) {
             composable(route = SunflowerScreen.START.name) {
@@ -63,6 +65,11 @@ fun SunflowerApp(
             }
             composable(route = SunflowerScreen.HOME.name) {
                 HomeScreen()
+            }
+            composable(route = SunflowerScreen.SNAKE_GAME.name){
+                SnakeGameScreen(
+                    goToHome = {},
+                )
             }
         }
     }
