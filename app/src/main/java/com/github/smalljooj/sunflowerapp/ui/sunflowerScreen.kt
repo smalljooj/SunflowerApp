@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.github.smalljooj.sunflowerapp.ui.games.puzzleGame.PuzzleGameScreen
 import com.github.smalljooj.sunflowerapp.ui.games.snakeGame.SnakeGameScreen
 import com.github.smalljooj.sunflowerapp.ui.home.HomeScreen
 import com.github.smalljooj.sunflowerapp.ui.loading.LoadingScreen
@@ -19,7 +20,8 @@ enum class SunflowerScreen {
     WELCOME,
     PROFILE,
     HOME,
-    SNAKE_GAME
+    SNAKE_GAME,
+    PUZZLE_GAME
 }
 
 @Composable
@@ -32,7 +34,7 @@ fun SunflowerApp(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = SunflowerScreen.SNAKE_GAME.name,
+            startDestination = SunflowerScreen.START.name,
             modifier = modifier.padding(innerPadding)
         ) {
             composable(route = SunflowerScreen.START.name) {
@@ -64,11 +66,27 @@ fun SunflowerApp(
                 )
             }
             composable(route = SunflowerScreen.HOME.name) {
-                HomeScreen()
+                HomeScreen(
+                    goToSnakeGame = {
+                        navController.navigate(route = SunflowerScreen.SNAKE_GAME.name)
+                    },
+                    goToPuzzleGame = {
+                        navController.navigate(route = SunflowerScreen.PUZZLE_GAME.name)
+                    }
+                )
             }
             composable(route = SunflowerScreen.SNAKE_GAME.name){
                 SnakeGameScreen(
-                    goToHome = {},
+                    goToHomeScreen = {
+                        navController.popBackStack(SunflowerScreen.SNAKE_GAME.name, inclusive = true)
+                    },
+                )
+            }
+            composable(route = SunflowerScreen.PUZZLE_GAME.name){
+                PuzzleGameScreen(
+                    goToHomeScreen = {
+                        navController.popBackStack(SunflowerScreen.PUZZLE_GAME.name, inclusive = true)
+                    },
                 )
             }
         }

@@ -1,18 +1,32 @@
 package com.github.smalljooj.sunflowerapp.ui.games.snakeGame
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.smalljooj.sunflowerapp.data.source.QuestionsSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 class SnakeGameViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(SnakeGameUiState())
     val uiState: StateFlow<SnakeGameUiState> = _uiState.asStateFlow()
+    var color by mutableStateOf(Color(0xFF059212))
+    var openQuestionDialog by mutableStateOf(false)
+        private set
+    var question = QuestionsSource.questions[Random.nextInt(0, 13)]
+
+    fun updateOpenQuestionDialog(value: Boolean) {
+        openQuestionDialog = value
+    }
 
     fun onEvent(event: SnakeGameEvent) {
         when(event) {
@@ -64,6 +78,15 @@ class SnakeGameViewModel: ViewModel() {
     }
 
     private fun updateGame(currentGame: SnakeGameUiState): SnakeGameUiState{
+        val colors: List<Color> = listOf(
+            Color(0xFF059212),
+            Color(0xFFEB5B00),
+            Color(0xFFB60071),
+            Color(0xFFE4003A),
+            Color(0xFF00215E),
+            Color(0xFF2C4E80),
+            Color(0xFF1A5319),
+        )
         if (currentGame.isGameOver) {
             return currentGame
         }
@@ -87,11 +110,16 @@ class SnakeGameViewModel: ViewModel() {
         if (currentGame.snake.contains(newHead) ||
             !isWithinBounds(newHead, xAxisGridSize, yAxisGridSize)
             ) {
+            updateOpenQuestionDialog(Random.nextInt(0, 4) == 0)
+            question = QuestionsSource.questions[Random.nextInt(0, 13)]
             return currentGame.copy(isGameOver = true)
         }
         var newSnake = mutableListOf(newHead) + currentGame.snake
         val newFood = if (newHead == currentGame.food) SnakeGameUiState.generateRandomFoodCoordinate()
         else currentGame.food
+        if (newHead == currentGame.food) {
+            color = colors[Random.nextInt(0, 7)]
+        }
         if (newHead != currentGame.food) {
             newSnake = newSnake.toMutableList()
             newSnake.removeAt(newSnake.size - 1)

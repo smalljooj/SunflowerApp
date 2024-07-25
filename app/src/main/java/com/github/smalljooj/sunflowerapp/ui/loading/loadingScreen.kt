@@ -42,7 +42,7 @@ fun LoadingScreen(
             ) {
                 LaunchedEffect(true) {
                     scope.launch {
-                        delay(1000)
+                        delay(1500)
                         viewModel.verifySession(
                             goToWelcomeScreen= goToWelcomeScreen,
                             goToHomeScreen = goToHomeScreen
