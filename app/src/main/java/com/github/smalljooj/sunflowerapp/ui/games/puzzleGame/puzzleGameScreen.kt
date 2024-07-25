@@ -1,13 +1,15 @@
 package com.github.smalljooj.sunflowerapp.ui.games.puzzleGame
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.gestures.detectTapGestures
+import android.content.Context
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,22 +23,22 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.smalljooj.sunflowerapp.R
-import com.github.smalljooj.sunflowerapp.ui.theme.Custard
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun PuzzleGameScreen(
     goToHomeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PuzzleGameViewModel = viewModel()
+    viewModel: PuzzleGameViewModel = viewModel(),
+    context: Context = LocalContext.current
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val onEvent: (PuzzleGameEvent) -> Unit = viewModel::onEvent
@@ -47,7 +49,8 @@ fun PuzzleGameScreen(
     ) {
         Column(
             verticalArrangement = Arrangement.SpaceAround,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
                 .padding(8.dp)
         ) {
             Card(
@@ -62,22 +65,54 @@ fun PuzzleGameScreen(
                         .padding(16.dp)
                 )
             }
-            Canvas(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(ratio = 1f)
-                    .pointerInput(true) {
-                        detectTapGestures {
-                            //onEvent(SnakeGameEvent.UpdateDirection(it, size.width))
+            if (viewModel.recomposition) {
+                Column {
+                    for (i in 0 until uiState.puzzle.size) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            for (j in 0 until uiState.puzzle.size) {
+                                Image(
+                                    painter = painterResource(id = uiState.puzzle[i][j].image),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .border(BorderStroke(1.dp, Color.Black))
+                                        .rotate(uiState.orientation[i][j].toFloat())
+                                        .clickable {
+                                            viewModel.rotateImage(i, j, context)
+                                        }
+                                )
+                            }
                         }
                     }
-            ) {
-                val cellSize = size.width / uiState.xAxisGridSize
-                drawGameBoard(
-                    cellSize = cellSize,
-                    cellColor = Custard,
-                    gridHeight = uiState.yAxisGridSize
-                )
+                }
+            } else {
+                Column {
+                    for (i in 0 until uiState.puzzle.size) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            for (j in 0 until uiState.puzzle.size) {
+                                Image(
+                                    painter = painterResource(id = uiState.puzzle[i][j].image),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillWidth,
+                                    modifier = Modifier
+                                        .weight(1F)
+                                        .border(BorderStroke(1.dp, Color.Black))
+                                        .rotate(uiState.orientation[i][j].toFloat())
+                                        .clickable {
+                                            viewModel.rotateImage(i, j, context)
+                                        }
+                                )
+                            }
+                        }
+                    }
+                }
             }
             Row(
                 modifier = Modifier
@@ -98,22 +133,6 @@ fun PuzzleGameScreen(
                     Text(text = stringResource(id = R.string.back))
                 }
             }
-        }
-    }
-}
-private fun DrawScope.drawGameBoard(
-    cellSize: Float,
-    cellColor: Color,
-    gridHeight: Int
-) {
-    for (i in 0 until gridHeight) {
-        for (j in 0 until gridHeight) {
-            drawRect(
-                color = if((i + j) % 2 == 0) cellColor
-                else cellColor.copy(alpha = 0.5f),
-                topLeft = Offset(x = i * cellSize, y = j * cellSize),
-                size = Size(cellSize, cellSize)
-            )
         }
     }
 }
