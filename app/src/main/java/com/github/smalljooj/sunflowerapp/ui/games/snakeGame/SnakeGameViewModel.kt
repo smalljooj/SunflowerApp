@@ -6,8 +6,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.github.smalljooj.sunflowerapp.SunflowerApplication
+import com.github.smalljooj.sunflowerapp.data.repositories.UserRepository
 import com.github.smalljooj.sunflowerapp.data.source.QuestionsSource
+import com.github.smalljooj.sunflowerapp.data.types.model.User
+import com.github.smalljooj.sunflowerapp.data.util.answerQuestion
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +23,10 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
-class SnakeGameViewModel: ViewModel() {
+class SnakeGameViewModel(
+    private val offlineUserRepository: UserRepository,
+    val user: MutableStateFlow<User>
+): ViewModel() {
     private val _uiState = MutableStateFlow(SnakeGameUiState())
     val uiState: StateFlow<SnakeGameUiState> = _uiState.asStateFlow()
     var color by mutableStateOf(Color(0xFF059212))
@@ -110,7 +120,7 @@ class SnakeGameViewModel: ViewModel() {
         if (currentGame.snake.contains(newHead) ||
             !isWithinBounds(newHead, xAxisGridSize, yAxisGridSize)
             ) {
-            updateOpenQuestionDialog(Random.nextInt(0, 4) == 0)
+            updateOpenQuestionDialog((0..2).random() == 0)
             question = QuestionsSource.questions[Random.nextInt(0, 13)]
             return currentGame.copy(isGameOver = true)
         }
@@ -127,6 +137,17 @@ class SnakeGameViewModel: ViewModel() {
         return currentGame.copy(snake = newSnake, food = newFood)
     }
 
+    fun answer(answer: Boolean) {
+        viewModelScope.launch {
+            answerQuestion(
+                user = user,
+                offlineUserRepository = offlineUserRepository,
+                question = question,
+                answer = answer
+            )
+        }
+    }
+
     private fun isWithinBounds(
         coordinate: Coordinate,
         xAxisGridSize: Int,
@@ -136,4 +157,17 @@ class SnakeGameViewModel: ViewModel() {
                 && coordinate.y in 1 until yAxisGridSize - 1
     }
 
+    companion object {
+        val Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as SunflowerApplication)
+                val offlineUserRepository = application.container.offlineUserRepository
+                val user = application.container.user
+                SnakeGameViewModel(
+                    offlineUserRepository = offlineUserRepository,
+                    user = user
+                )
+            }
+        }
+    }
 }

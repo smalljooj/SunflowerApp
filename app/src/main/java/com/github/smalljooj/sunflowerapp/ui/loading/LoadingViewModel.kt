@@ -42,7 +42,13 @@ class LoadingViewModel(
                         level = users.first().level,
                         image = users.first().image,
                         imageTitle = users.first().imageTitle,
-                        profileId = users.first().profileId
+                        profileId = users.first().profileId,
+                        anger = users.first().anger,
+                        anxiety = users.first().anxiety,
+                        happiness = users.first().happiness,
+                        disgust = users.first().disgust,
+                        sadness = users.first().sadness,
+                        jealousy = users.first().jealousy
                     )
                 }
                 goToHomeScreen()

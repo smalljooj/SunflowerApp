@@ -1,6 +1,5 @@
 package com.github.smalljooj.sunflowerapp.ui.home
 
-import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,16 +26,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -47,12 +43,8 @@ import com.github.smalljooj.sunflowerapp.data.types.model.User
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.smalljooj.sunflowerapp.R
-import com.github.smalljooj.sunflowerapp.data.source.QuestionsSource
-import com.github.smalljooj.sunflowerapp.data.types.model.Question
 import com.github.smalljooj.sunflowerapp.ui.commonComposables.QuestionDialog
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileImageDialog
-import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 @Composable
 fun HomeScreen(
@@ -64,6 +56,7 @@ fun HomeScreen(
     val userState by viewModel.userState.collectAsState()
     if (viewModel.openQuestionDialog) {
         QuestionDialog(question = viewModel.question, send = {
+            viewModel.answer(it)
             viewModel.updateOpenQuestionDialog(false)
         })
     }

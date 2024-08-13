@@ -50,7 +50,7 @@ import kotlin.random.Random
 @Composable
 fun SnakeGameScreen(
     goToHomeScreen: () -> Unit,
-    viewModel: SnakeGameViewModel = viewModel(),
+    viewModel: SnakeGameViewModel = viewModel(factory = SnakeGameViewModel.Factory),
     context: Context = LocalContext.current
 ) {
     val onEvent: (SnakeGameEvent) -> Unit = viewModel::onEvent
@@ -60,6 +60,7 @@ fun SnakeGameScreen(
     val gameOverSoundMP = remember { MediaPlayer.create(context, R.raw.gameover) }
     if (viewModel.openQuestionDialog) {
         QuestionDialog(question = viewModel.question, send = {
+            viewModel.answer(it)
             viewModel.updateOpenQuestionDialog(false)
         })
     }

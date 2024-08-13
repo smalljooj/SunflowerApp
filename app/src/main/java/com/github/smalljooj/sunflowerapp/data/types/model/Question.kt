@@ -8,5 +8,7 @@ data class Question(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val question: String = "",
-    val answers: Boolean = false
+    val answers: Boolean = false,
+    val isAnswerYes: Boolean = true,
+    val emotion: Emotion = Emotion.HAPPINESS
 )
