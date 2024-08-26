@@ -66,6 +66,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.accompanist)
 
+    // ImageView
+    //implementation(libs.bumptech.glide)
+
     // Room
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)

@@ -51,7 +51,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     goToSnakeGame: () -> Unit,
     goToPuzzleGame: () -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory),
+    goToColorsGame: () -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val userState by viewModel.userState.collectAsState()
     if (viewModel.openQuestionDialog) {
@@ -113,7 +114,7 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier.height(50.dp))
             GameCard(
-                image = ImageModel(R.drawable.snake_game_splash, R.string.colorsequency),
+                image = ImageModel(R.drawable.snake_game_splash, R.string.snake_game),
                 onclick = { goToSnakeGame() },
                 width = 300,
                 height = 200
@@ -126,7 +127,7 @@ fun HomeScreen(
 
                 GameCard(
                     image = ImageModel(R.drawable.colorsequency, R.string.colorsequency),
-                    onclick = { /*TODO*/ },
+                    onclick = { goToColorsGame() },
                     width = 100,
                     height = 100
                 )

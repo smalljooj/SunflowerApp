@@ -31,4 +31,5 @@
     <string name="game_over">Fim de jogo</string>
     <string name="no">Não</string>
     <string name="yes">Sim</string>
+    <string name="snake_game">Jogo da cobrinha</string>
 </resources>

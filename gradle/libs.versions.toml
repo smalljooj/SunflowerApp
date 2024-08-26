@@ -15,6 +15,7 @@ accompanistVersion = "0.24.13-rc"
 roomVersion = "2.6.1"
 serializationPlugin = "1.9.10"
 kspVersion = "1.9.20-1.0.14"
+glideVersion = "1.0.0-beta01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +39,7 @@ accompanist = { group = "com.google.accompanist", name = "accompanist-pager", ve
 room-runtime =  { group = "androidx.room", name = "room-runtime", version.ref = "roomVersion" }
 room-compiler =  { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 room-ktx =  { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
+bumptech-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glideVersion"  }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
