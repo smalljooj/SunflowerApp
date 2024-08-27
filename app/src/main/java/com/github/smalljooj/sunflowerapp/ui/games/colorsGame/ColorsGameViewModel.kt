@@ -36,11 +36,11 @@ class ColorsGameViewModel(
     var openQuestionDialog by mutableStateOf(false)
         private set
     var question = QuestionsSource.questions[Random.nextInt(0, 13)]
-    var recomposition by mutableStateOf(true)
     var isMemorizeTime by mutableStateOf(true)
         private set
     var time by mutableIntStateOf(5)
         private set
+    private var isDragging by mutableStateOf(false)
 
     init {
         val randomNumbers = (0..9).shuffled().take(3)
@@ -55,16 +55,18 @@ class ColorsGameViewModel(
     }
 
     fun updateColor(color: Color, index: Int, context: Context) {
-        MediaPlayer.create(context, R.raw.bubblesound).start()
-        val newList = _uiState.value.colorsGuest.toMutableList()
-        newList[index] = CircleColor(color = color, index = index)
-        _uiState.update {
-            it.copy(
-                colorsGuest = newList
-            )
+        if (isDragging) {
+            MediaPlayer.create(context, R.raw.bubblesound).start()
+            val newList = _uiState.value.colorsGuest.toMutableList()
+            newList[index] = CircleColor(color = color, index = index)
+            _uiState.update {
+                it.copy(
+                    colorsGuest = newList.toList()
+                )
+            }
+            verifyGame(context)
+            isDragging = false
         }
-        verifyGame(context)
-        recomposition = !recomposition
     }
 
     private fun verifyGame(context: Context) {
@@ -93,6 +95,10 @@ class ColorsGameViewModel(
         }
     }
 
+    fun isDraggingUpdate(isDrag: Boolean) {
+        isDragging = isDrag
+    }
+
     private suspend fun levelInit() {
         isMemorizeTime = true
         for (i in (5 downTo 1)) {
@@ -105,11 +111,11 @@ class ColorsGameViewModel(
     private fun nextLevel() {
         _uiState.update {
             val size = 3 + (uiState.value.level / 3)
-            val randomNumbers = (0..9).shuffled().take(size)
+            val randomNumbers = (0..9).shuffled().take(if (size <= 6) size else 6)
             it.copy(
                 level = uiState.value.level + 1,
                 colorsRef = getColorsList(randomNumbers),
-                colorsGuest = getGrayColorsList(size).toMutableList()
+                colorsGuest = getGrayColorsList(size)
             )
         }
         viewModelScope.launch {
@@ -121,7 +127,7 @@ class ColorsGameViewModel(
         for (i in (0 until size)) {
             newList.add(CircleColor(color = Color.Gray, index = i))
         }
-        return newList.toList()
+        return newList
     }
 
     private fun getColorsList(numbers: List<Int>): List<CircleColor> {
@@ -129,7 +135,7 @@ class ColorsGameViewModel(
         for (element in numbers) {
             list.add(ColorsSource.colors[element])
         }
-        return list.toList()
+        return list
     }
 
     private fun reset() {
@@ -138,7 +144,7 @@ class ColorsGameViewModel(
             it.copy(
                 level = 1,
                 colorsRef = getColorsList(randomNumbers),
-                colorsGuest = getGrayColorsList(3).toMutableList()
+                colorsGuest = getGrayColorsList(3)
             )
         }
         viewModelScope.launch {
@@ -154,7 +160,6 @@ class ColorsGameViewModel(
         when(event) {
             ColorsGameEvent.ResetGame -> {
                 reset()
-                recomposition = !recomposition
             }
         }
     }

@@ -57,6 +57,7 @@ fun DraggableScreen(
 fun <T> DragTarget(
     modifier: Modifier = Modifier,
     dataToDrop: T,
+    viewModel: ColorsGameViewModel,
     content: @Composable (() -> Unit)
 ) {
 
@@ -76,6 +77,7 @@ fun <T> DragTarget(
                 currentState.dragPosition = currentPosition + it
                 currentState.draggableComposable = content
             }, onDrag = { change, dragAmount ->
+                viewModel.isDraggingUpdate(true)
                 change.consume()
                 currentState.dragOffset += Offset(dragAmount.x, dragAmount.y)
             }, onDragEnd = {

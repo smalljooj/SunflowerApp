@@ -1,6 +1,7 @@
 package com.github.smalljooj.sunflowerapp.ui.games.colorsGame
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
@@ -155,226 +156,111 @@ fun ColorsGameScreen(
                             .padding(20.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                    if (!viewModel.isMemorizeTime) {
-                            if (viewModel.recomposition) {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(10.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    for (i in 0..2) {
-                                        DropItem<CircleColor>(
-                                            modifier = Modifier
-                                                .size(80.dp)
-                                                .clip(RoundedCornerShape(40.dp))
-                                                .shadow(5.dp, RoundedCornerShape(40.dp))
-                                        ) { isInBound, circle ->
-                                            if (circle != null) {
-                                                LaunchedEffect(key1 = circle) {
-                                                    viewModel.updateColor(
-                                                        circle.color,
-                                                        uiState.colorsGuest[i].index,
-                                                        context
-                                                    )
-                                                }
-                                            }
-                                            if (isInBound) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.Red,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            } else {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.White,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
+                        if (!viewModel.isMemorizeTime) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                for (i in 0..2) {
+                                    DropItem<CircleColor>(
+                                        modifier = Modifier
+                                            .size(80.dp)
+                                            .clip(RoundedCornerShape(40.dp))
+                                            .shadow(5.dp, RoundedCornerShape(40.dp))
+                                    ) { isInBound, circle ->
+                                        if (circle != null) {
+                                            if (circle.color != Color.Gray) {
+                                                viewModel.updateColor(
+                                                    circle.color,
+                                                    uiState.colorsGuest[i].index,
+                                                    context
                                                 )
                                             }
                                         }
-                                    }
-                                }
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(10.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    for (i in 3 until uiState.colorsGuest.size) {
-                                        DropItem<CircleColor>(
-                                            modifier = Modifier
-                                                .size(80.dp)
-                                                .clip(RoundedCornerShape(40.dp))
-                                                .shadow(5.dp, RoundedCornerShape(40.dp))
-                                        ) { isInBound, circle ->
-                                            if (circle != null) {
-                                                LaunchedEffect(key1 = circle) {
-                                                    viewModel.updateColor(
-                                                        circle.color,
-                                                        uiState.colorsGuest[i].index,
-                                                        context
+                                        if (isInBound) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .border(
+                                                        1.dp,
+                                                        color = Color.Red,
+                                                        shape = RoundedCornerShape(40.dp)
                                                     )
-                                                }
-                                            }
-                                            if (isInBound) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.Red,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            } else {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.White,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            }
+                                                    .background(
+                                                        uiState.colorsGuest[i].color,
+                                                        RoundedCornerShape(40.dp)
+                                                    )
+                                            )
+                                        } else {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .border(
+                                                        1.dp,
+                                                        color = Color.White,
+                                                        shape = RoundedCornerShape(40.dp)
+                                                    )
+                                                    .background(
+                                                        uiState.colorsGuest[i].color,
+                                                        RoundedCornerShape(40.dp)
+                                                    )
+                                            )
                                         }
                                     }
                                 }
-                            } else {
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(10.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    for (i in 0..2) {
-                                        DropItem<CircleColor>(
-                                            modifier = Modifier
-                                                .size(80.dp)
-                                                .clip(RoundedCornerShape(40.dp))
-                                                .shadow(5.dp, RoundedCornerShape(40.dp))
-                                        ) { isInBound, circle ->
-                                            if (circle != null) {
-                                                LaunchedEffect(key1 = circle) {
-                                                    viewModel.updateColor(
-                                                        circle.color,
-                                                        uiState.colorsGuest[i].index,
-                                                        context
-                                                    )
-                                                }
-                                            }
-                                            if (isInBound) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.Red,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            } else {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.White,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            }
+                            }
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ) {
+                                for (i in 3 until uiState.colorsGuest.size) {
+                                    DropItem<CircleColor>(
+                                        modifier = Modifier
+                                            .size(80.dp)
+                                            .clip(RoundedCornerShape(40.dp))
+                                            .shadow(5.dp, RoundedCornerShape(40.dp))
+                                    ) { isInBound, circle ->
+                                        if (circle != null) {
+                                            viewModel.updateColor(
+                                                circle.color,
+                                                uiState.colorsGuest[i].index,
+                                                context
+                                            )
                                         }
-                                    }
-                                }
-                                Row(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(10.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.SpaceEvenly
-                                ) {
-                                    for (i in 3 until uiState.colorsGuest.size) {
-                                        DropItem<CircleColor>(
-                                            modifier = Modifier
-                                                .size(80.dp)
-                                                .clip(RoundedCornerShape(40.dp))
-                                                .shadow(5.dp, RoundedCornerShape(40.dp))
-                                        ) { isInBound, circle ->
-                                            if (circle != null) {
-                                                LaunchedEffect(key1 = circle) {
-                                                    viewModel.updateColor(
-                                                        circle.color,
-                                                        uiState.colorsGuest[i].index,
-                                                        context
+                                        if (isInBound) {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .border(
+                                                        1.dp,
+                                                        color = Color.Red,
+                                                        shape = RoundedCornerShape(40.dp)
                                                     )
-                                                }
-                                            }
-                                            if (isInBound) {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.Red,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            } else {
-                                                Box(
-                                                    modifier = Modifier
-                                                        .fillMaxSize()
-                                                        .border(
-                                                            1.dp,
-                                                            color = Color.White,
-                                                            shape = RoundedCornerShape(40.dp)
-                                                        )
-                                                        .background(
-                                                            uiState.colorsGuest[i].color,
-                                                            RoundedCornerShape(40.dp)
-                                                        )
-                                                )
-                                            }
+                                                    .background(
+                                                        uiState.colorsGuest[i].color,
+                                                        RoundedCornerShape(40.dp)
+                                                    )
+                                            )
+                                        } else {
+                                            Box(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .border(
+                                                        1.dp,
+                                                        color = Color.White,
+                                                        shape = RoundedCornerShape(40.dp)
+                                                    )
+                                                    .background(
+                                                        uiState.colorsGuest[i].color,
+                                                        RoundedCornerShape(40.dp)
+                                                    )
+                                            )
                                         }
                                     }
                                 }
@@ -392,6 +278,7 @@ fun ColorsGameScreen(
                         (0..4).forEach {
                             DragTarget(
                                 dataToDrop = ColorsSource.colors[it],
+                                viewModel = viewModel
                             ) {
                                 Box(
                                     modifier = Modifier
@@ -416,6 +303,7 @@ fun ColorsGameScreen(
                         (5..9).forEach {
                             DragTarget(
                                 dataToDrop = ColorsSource.colors[it],
+                                viewModel = viewModel
                             ) {
                                 Box(
                                     modifier = Modifier
