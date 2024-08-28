@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.github.smalljooj.sunflowerapp.ui.games.colorsGame.ColorsGameScreen
+import com.github.smalljooj.sunflowerapp.ui.games.memoryGame.MemoryGameScreen
 import com.github.smalljooj.sunflowerapp.ui.games.puzzleGame.PuzzleGameScreen
 import com.github.smalljooj.sunflowerapp.ui.games.snakeGame.SnakeGameScreen
 import com.github.smalljooj.sunflowerapp.ui.home.HomeScreen
@@ -23,7 +24,8 @@ enum class SunflowerScreen {
     HOME,
     SNAKE_GAME,
     PUZZLE_GAME,
-    COLORS_GAME
+    COLORS_GAME,
+    MEMORY_GAME
 }
 
 @Composable
@@ -77,6 +79,9 @@ fun SunflowerApp(
                     },
                     goToColorsGame = {
                         navController.navigate(route = SunflowerScreen.COLORS_GAME.name)
+                    },
+                    goToMemoryGame = {
+                        navController.navigate(route = SunflowerScreen.MEMORY_GAME.name)
                     }
                 )
             }
@@ -98,6 +103,13 @@ fun SunflowerApp(
                 ColorsGameScreen(
                     goToHomeScreen = {
                         navController.popBackStack(SunflowerScreen.COLORS_GAME.name, inclusive = true)
+                    }
+                )
+            }
+            composable(route = SunflowerScreen.MEMORY_GAME.name){
+                MemoryGameScreen(
+                    goToHomeScreen = {
+                        navController.popBackStack(SunflowerScreen.MEMORY_GAME.name, inclusive = true)
                     }
                 )
             }

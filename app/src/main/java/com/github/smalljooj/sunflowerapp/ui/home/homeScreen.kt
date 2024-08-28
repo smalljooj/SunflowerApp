@@ -52,6 +52,7 @@ fun HomeScreen(
     goToSnakeGame: () -> Unit,
     goToPuzzleGame: () -> Unit,
     goToColorsGame: () -> Unit,
+    goToMemoryGame: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
     val userState by viewModel.userState.collectAsState()
@@ -141,7 +142,7 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.width(10.dp))
                 GameCard(
                     image = ImageModel(R.drawable.memorygame, R.string.memorygame),
-                    onclick = { /*TODO*/ },
+                    onclick = { goToMemoryGame() },
                     width = 100,
                     height = 100
                 )
