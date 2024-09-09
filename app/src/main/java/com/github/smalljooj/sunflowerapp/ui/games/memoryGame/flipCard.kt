@@ -72,8 +72,10 @@ fun FlipCard(
                 cameraDistance = 8 * density
             }
             .clickable {
-                rotated = !rotated
-                viewModel.flipCard(rotated, positionX, positionY)
+                if (!rotated) {
+                    rotated = true
+                    viewModel.flipCard(true, positionX, positionY)
+                }
             }
             .dashedBorder(
             color = Color.Black,

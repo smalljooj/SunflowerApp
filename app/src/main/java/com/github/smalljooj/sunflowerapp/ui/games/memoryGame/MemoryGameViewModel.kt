@@ -1,7 +1,6 @@
 package com.github.smalljooj.sunflowerapp.ui.games.memoryGame
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -16,6 +15,7 @@ import com.github.smalljooj.sunflowerapp.data.source.QuestionsSource
 import com.github.smalljooj.sunflowerapp.data.types.MemoryCard
 import com.github.smalljooj.sunflowerapp.data.types.model.User
 import com.github.smalljooj.sunflowerapp.data.util.answerQuestion
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -31,14 +31,10 @@ class MemoryGameViewModel(
     var openQuestionDialog by mutableStateOf(false)
         private set
     var question = QuestionsSource.questions[Random.nextInt(0, 13)]
-    var isMemorizeTime by mutableStateOf(true)
-        private set
-    var time by mutableIntStateOf(5)
-        private set
+
     private val levels = listOf(
         listOf(2,2),
         listOf(3,2),
-        listOf(4,2),
         listOf(4,3),
         listOf(4,4),
         listOf(5,4),
@@ -53,11 +49,20 @@ class MemoryGameViewModel(
         }
     }
 
-    private suspend fun levelInit() {
-    }
-
     private fun nextLevel() {
-
+        _uiState.update {
+            it.copy(
+                level = _uiState.value.level + 1,
+                cards = emptyList()
+            )
+        }
+        _uiState.update {
+            it.copy (
+                currentCards = mutableListOf(),
+                cards = getCards()
+            )
+        }
+        recomposition = !recomposition
     }
 
     fun checkIsTurned(x: Int, y: Int): Boolean {
@@ -65,11 +70,21 @@ class MemoryGameViewModel(
     }
 
     private fun reset() {
-
+        _uiState.update {
+            it.copy(
+                level = 1,
+            )
+        }
+        _uiState.update {
+            it.copy (
+                currentCards = mutableListOf(),
+                cards = getCards()
+            )
+        }
     }
 
     private fun getCards(): List<List<MemoryCard>> {
-        val maxLevel = if (uiState.value.level < 6) uiState.value.level - 1 else 5
+        val maxLevel = if (uiState.value.level < 5) uiState.value.level - 1 else 4
         val level = levels[maxLevel]
 
         val cards = List(size = level[0]) {
@@ -97,6 +112,44 @@ class MemoryGameViewModel(
 
     fun flipCard(value: Boolean, row: Int, column: Int) {
         _uiState.value.cards[row][column].isTurned = value
+        _uiState.value.currentCards.add(listOf(row, column))
+        viewModelScope.launch {
+            if (_uiState.value.currentCards.size >= 2) {
+                if (_uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].image !=
+                    _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].image
+                ) {
+                    _uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].isTurned = false
+                    _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].isTurned = false
+                    _uiState.update {
+                        it.copy(
+                            currentCards = mutableListOf()
+                        )
+                    }
+                    delay(500)
+                    recomposition = !recomposition
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            currentCards = mutableListOf()
+                        )
+                    }
+                    delay(500)
+                    recomposition = !recomposition
+                }
+            }
+            var finish = true
+            for (i in _uiState.value.cards) {
+                for (j in i) {
+                    if (!j.isTurned) {
+                        finish = false
+                    }
+                }
+            }
+            if (finish) {
+                delay(500)
+                nextLevel()
+            }
+        }
     }
 
     fun updateOpenQuestionDialog(value: Boolean) {
