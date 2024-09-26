@@ -79,7 +79,7 @@ fun SnakeGameScreen(
         contentAlignment = Alignment.Center
     ) {
         Column(
-            verticalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxSize()
         ) {
             Card(
@@ -97,7 +97,7 @@ fun SnakeGameScreen(
             Canvas(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(ratio = 2 / 3f)
+                    .aspectRatio(ratio = 1f)
                     .pointerInput(state.gameState) {
                         if (state.gameState != GameState.STARTED) {
                             return@pointerInput

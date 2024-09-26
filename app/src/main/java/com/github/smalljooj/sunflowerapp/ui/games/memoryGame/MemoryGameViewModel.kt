@@ -2,6 +2,7 @@ package com.github.smalljooj.sunflowerapp.ui.games.memoryGame
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
@@ -31,17 +32,23 @@ class MemoryGameViewModel(
     var openQuestionDialog by mutableStateOf(false)
         private set
     var question = QuestionsSource.questions[Random.nextInt(0, 13)]
+    private var isPaused by mutableStateOf(false)
 
     private val levels = listOf(
         listOf(2,2),
-        listOf(3,2),
-        listOf(4,3),
+        listOf(2,4),
+        listOf(3,4),
         listOf(4,4),
-        listOf(5,4),
+        listOf(4,5),
     )
     var recomposition by mutableStateOf(true)
 
     init {
+        val isGenerated = (0..2).random() == 0
+        if (isGenerated) {
+            updateOpenQuestionDialog(true)
+            question = QuestionsSource.questions[Random.nextInt(0, 13)]
+        }
         _uiState.update {
             it.copy(
                 cards = getCards()
@@ -50,6 +57,7 @@ class MemoryGameViewModel(
     }
 
     private fun nextLevel() {
+        isPaused = true
         _uiState.update {
             it.copy(
                 level = _uiState.value.level + 1,
@@ -63,6 +71,7 @@ class MemoryGameViewModel(
             )
         }
         recomposition = !recomposition
+        isPaused = false
     }
 
     fun checkIsTurned(x: Int, y: Int): Boolean {
@@ -70,6 +79,12 @@ class MemoryGameViewModel(
     }
 
     private fun reset() {
+        isPaused = true
+        val isGenerated = (0..2).random() == 0
+        if (isGenerated) {
+            updateOpenQuestionDialog(true)
+            question = QuestionsSource.questions[Random.nextInt(0, 13)]
+        }
         _uiState.update {
             it.copy(
                 level = 1,
@@ -81,6 +96,7 @@ class MemoryGameViewModel(
                 cards = getCards()
             )
         }
+        isPaused = true
     }
 
     private fun getCards(): List<List<MemoryCard>> {
@@ -111,43 +127,45 @@ class MemoryGameViewModel(
     }
 
     fun flipCard(value: Boolean, row: Int, column: Int) {
-        _uiState.value.cards[row][column].isTurned = value
-        _uiState.value.currentCards.add(listOf(row, column))
-        viewModelScope.launch {
-            if (_uiState.value.currentCards.size >= 2) {
-                if (_uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].image !=
-                    _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].image
-                ) {
-                    _uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].isTurned = false
-                    _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].isTurned = false
-                    _uiState.update {
-                        it.copy(
-                            currentCards = mutableListOf()
-                        )
-                    }
-                    delay(500)
-                    recomposition = !recomposition
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            currentCards = mutableListOf()
-                        )
-                    }
-                    delay(500)
-                    recomposition = !recomposition
-                }
-            }
-            var finish = true
-            for (i in _uiState.value.cards) {
-                for (j in i) {
-                    if (!j.isTurned) {
-                        finish = false
+        if (!isPaused){
+            _uiState.value.cards[row][column].isTurned = value
+            _uiState.value.currentCards.add(listOf(row, column))
+            viewModelScope.launch {
+                if (_uiState.value.currentCards.size >= 2) {
+                    if (_uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].image !=
+                        _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].image
+                    ) {
+                        _uiState.value.cards[_uiState.value.currentCards[0][0]][_uiState.value.currentCards[0][1]].isTurned = false
+                        _uiState.value.cards[_uiState.value.currentCards[1][0]][_uiState.value.currentCards[1][1]].isTurned = false
+                        _uiState.update {
+                            it.copy(
+                                currentCards = mutableListOf()
+                            )
+                        }
+                        delay(500)
+                        recomposition = !recomposition
+                    } else {
+                        _uiState.update {
+                            it.copy(
+                                currentCards = mutableListOf()
+                            )
+                        }
+                        delay(500)
+                        recomposition = !recomposition
                     }
                 }
-            }
-            if (finish) {
-                delay(500)
-                nextLevel()
+                var finish = true
+                for (i in _uiState.value.cards) {
+                    for (j in i) {
+                        if (!j.isTurned) {
+                            finish = false
+                        }
+                    }
+                }
+                if (finish) {
+                    delay(500)
+                    nextLevel()
+                }
             }
         }
     }

@@ -38,12 +38,19 @@ class ColorsGameViewModel(
     var question = QuestionsSource.questions[Random.nextInt(0, 13)]
     var isMemorizeTime by mutableStateOf(true)
         private set
-    var time by mutableIntStateOf(5)
+    private var isPaused by mutableStateOf(false)
+    var time by mutableIntStateOf(0)
         private set
     private var isDragging by mutableStateOf(false)
 
     init {
         val randomNumbers = (0..9).shuffled().take(3)
+        val isGenerated = (0..2).random() == 0
+        if (isGenerated) {
+            updateOpenQuestionDialog(true)
+            question = QuestionsSource.questions[Random.nextInt(0, 13)]
+            isPaused = true
+        }
         _uiState.update {
             it.copy(
                 colorsRef = getColorsList(randomNumbers),
@@ -101,11 +108,14 @@ class ColorsGameViewModel(
 
     private suspend fun levelInit() {
         isMemorizeTime = true
-        for (i in (5 downTo 1)) {
-            time = i
-            delay(1000)
+        if (!isPaused) {
+            for (i in (5 downTo 1)) {
+                time = i
+                delay(1000)
+            }
+            time = 0
+            isMemorizeTime = false
         }
-        isMemorizeTime = false
     }
 
     private fun nextLevel() {
@@ -139,6 +149,12 @@ class ColorsGameViewModel(
     }
 
     private fun reset() {
+        val isGenerated = (0..2).random() == 0
+        if (isGenerated) {
+            updateOpenQuestionDialog(true)
+            question = QuestionsSource.questions[Random.nextInt(0, 13)]
+            isPaused = true
+        }
         _uiState.update {
             val randomNumbers = (0..9).shuffled().take(3)
             it.copy(
@@ -172,6 +188,12 @@ class ColorsGameViewModel(
                 question = question,
                 answer = answer
             )
+        }
+        isPaused = false
+        if (isMemorizeTime) {
+            viewModelScope.launch {
+                levelInit()
+            }
         }
     }
 

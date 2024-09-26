@@ -1,7 +1,6 @@
 package com.github.smalljooj.sunflowerapp.ui.games.colorsGame
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
@@ -23,7 +22,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -39,6 +37,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.smalljooj.sunflowerapp.R
 import com.github.smalljooj.sunflowerapp.data.source.ColorsSource
 import com.github.smalljooj.sunflowerapp.data.types.model.CircleColor
+import com.github.smalljooj.sunflowerapp.ui.commonComposables.QuestionDialog
 
 @Composable
 fun ColorsGameScreen(
@@ -49,7 +48,12 @@ fun ColorsGameScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val onEvent: (ColorsGameEvent) -> Unit = viewModel::onEvent
-    //val screenWidth = LocalConfiguration.current.screenWidthDp
+    if (viewModel.openQuestionDialog) {
+        QuestionDialog(question = viewModel.question, send = {
+            viewModel.answer(it)
+            viewModel.updateOpenQuestionDialog(false)
+        })
+    }
 
     DraggableScreen(
         modifier = modifier
@@ -326,7 +330,8 @@ fun ColorsGameScreen(
                 ) {
                     Button(
                         modifier = Modifier.weight(1f),
-                        onClick = { onEvent(ColorsGameEvent.ResetGame) }
+                        onClick = { onEvent(ColorsGameEvent.ResetGame) },
+                        enabled = !viewModel.isMemorizeTime
                     ) {
                         Text(text = stringResource(id = R.string.restart))
                     }

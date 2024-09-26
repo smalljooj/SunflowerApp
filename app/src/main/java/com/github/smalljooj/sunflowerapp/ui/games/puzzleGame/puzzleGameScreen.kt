@@ -32,23 +32,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.smalljooj.sunflowerapp.R
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.github.smalljooj.sunflowerapp.ui.commonComposables.QuestionDialog
 
 @Composable
 fun PuzzleGameScreen(
     goToHomeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: PuzzleGameViewModel = viewModel(),
+    viewModel: PuzzleGameViewModel = viewModel(factory = PuzzleGameViewModel.Factory),
     context: Context = LocalContext.current
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val onEvent: (PuzzleGameEvent) -> Unit = viewModel::onEvent
+    if (viewModel.openQuestionDialog) {
+        QuestionDialog(question = viewModel.question, send = {
+            viewModel.answer(it)
+            viewModel.updateOpenQuestionDialog(false)
+        })
+    }
 
     Box(
         modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column(
-            verticalArrangement = Arrangement.SpaceAround,
+            verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(8.dp)

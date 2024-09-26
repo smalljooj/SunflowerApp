@@ -4,7 +4,7 @@ import kotlin.random.Random
 
 data class SnakeGameUiState(
     val xAxisGridSize: Int = 20,
-    val yAxisGridSize: Int = 30,
+    val yAxisGridSize: Int = 20,
     val direction: Direction = Direction.RIGHT,
     val snake: List<Coordinate> = listOf(Coordinate(x = 5, y = 5)),
     val food: Coordinate = generateRandomFoodCoordinate(),
@@ -15,7 +15,7 @@ data class SnakeGameUiState(
         fun generateRandomFoodCoordinate(): Coordinate{
             return Coordinate(
                 x = Random.nextInt(from = 1, until = 19),
-                y = Random.nextInt(from = 1, until = 29),
+                y = Random.nextInt(from = 1, until = 19),
             )
         }
     }

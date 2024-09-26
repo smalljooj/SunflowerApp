@@ -25,20 +25,29 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.smalljooj.sunflowerapp.R
+import com.github.smalljooj.sunflowerapp.ui.commonComposables.QuestionDialog
 
 @Composable
 fun MemoryGameScreen(
     goToHomeScreen: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: MemoryGameViewModel = viewModel(factory = MemoryGameViewModel.Factory),
-    context: Context = LocalContext.current
+    viewModel: MemoryGameViewModel = viewModel(factory = MemoryGameViewModel.Factory)
 ) {
 
     val uiState by viewModel.uiState.collectAsState()
     val onEvent: (MemoryGameEvent) -> Unit = viewModel::onEvent
     //val screenWidth = LocalConfiguration.current.screenWidthDp
+    if (viewModel.openQuestionDialog) {
+        QuestionDialog(question = viewModel.question, send = {
+            viewModel.answer(it)
+            viewModel.updateOpenQuestionDialog(false)
+        })
+    }
 
-    Column {
+    Column(
+        verticalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.fillMaxSize()
+    ) {
         Card(
             modifier = modifier
                 .padding(8.dp)
@@ -52,10 +61,7 @@ fun MemoryGameScreen(
             )
         }
         Column(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+            modifier = Modifier.padding(8.dp)
         ) {
             Column {
                 for (i in 0 until uiState.cards.size) {
@@ -88,24 +94,24 @@ fun MemoryGameScreen(
                     }
                 }
             }
-            Row(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth()
+        }
+        Row(
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+        ) {
+            Button(
+                modifier = Modifier.weight(1f),
+                onClick = { onEvent(MemoryGameEvent.ResetGame) }
             ) {
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = { onEvent(MemoryGameEvent.ResetGame) }
-                ) {
-                    Text(text = stringResource(id = R.string.restart))
-                }
-                Spacer(modifier = Modifier.width(10.dp))
-                Button(
-                    modifier = Modifier.weight(1f),
-                    onClick = { goToHomeScreen() },
-                ) {
-                    Text(text = stringResource(id = R.string.back))
-                }
+                Text(text = stringResource(id = R.string.restart))
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            Button(
+                modifier = Modifier.weight(1f),
+                onClick = { goToHomeScreen() },
+            ) {
+                Text(text = stringResource(id = R.string.back))
             }
         }
     }

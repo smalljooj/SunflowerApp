@@ -7,56 +7,215 @@ object PuzzleImageSource {
     val puzzles = listOf(
         listOf(
             listOf(
-                ImagePuzzle(R.drawable.puzzle1_1),
-                ImagePuzzle(R.drawable.puzzle1_2)
+                ImagePuzzle(R.drawable.puzzle1_4),
+                ImagePuzzle(R.drawable.puzzle1_3)
             ),
             listOf(
-                ImagePuzzle(R.drawable.puzzle1_3),
-                ImagePuzzle(R.drawable.puzzle1_4)
+                ImagePuzzle(R.drawable.puzzle1_2),
+                ImagePuzzle(R.drawable.puzzle1_1)
             ),
         ),
         listOf(
-            listOf(
-                ImagePuzzle(R.drawable.puzzle2_1),
-                ImagePuzzle(R.drawable.puzzle2_2),
-                ImagePuzzle(R.drawable.puzzle2_3)
-            ),
             listOf(
                 ImagePuzzle(R.drawable.puzzle2_4),
-                ImagePuzzle(R.drawable.puzzle2_5),
-                ImagePuzzle(R.drawable.puzzle2_6)
+                ImagePuzzle(R.drawable.puzzle2_3),
             ),
             listOf(
-                ImagePuzzle(R.drawable.puzzle2_7),
-                ImagePuzzle(R.drawable.puzzle2_8),
-                ImagePuzzle(R.drawable.puzzle2_9)
-            )
+                ImagePuzzle(R.drawable.puzzle2_2),
+                ImagePuzzle(R.drawable.puzzle2_1),
+            ),
         ),
         listOf(
             listOf(
-                ImagePuzzle(R.drawable.puzzle3_1),
-                ImagePuzzle(R.drawable.puzzle3_2),
+                ImagePuzzle(R.drawable.puzzle3_4),
                 ImagePuzzle(R.drawable.puzzle3_3),
-                ImagePuzzle(R.drawable.puzzle3_4)
             ),
             listOf(
-                ImagePuzzle(R.drawable.puzzle3_5),
-                ImagePuzzle(R.drawable.puzzle3_6),
-                ImagePuzzle(R.drawable.puzzle3_7),
-                ImagePuzzle(R.drawable.puzzle3_8)
+                ImagePuzzle(R.drawable.puzzle3_2),
+                ImagePuzzle(R.drawable.puzzle3_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle4_4),
+                ImagePuzzle(R.drawable.puzzle4_3),
             ),
             listOf(
-                ImagePuzzle(R.drawable.puzzle3_9),
-                ImagePuzzle(R.drawable.puzzle3_10),
-                ImagePuzzle(R.drawable.puzzle3_11),
-                ImagePuzzle(R.drawable.puzzle3_12)
+                ImagePuzzle(R.drawable.puzzle4_2),
+                ImagePuzzle(R.drawable.puzzle4_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle5_9),
+                ImagePuzzle(R.drawable.puzzle5_8),
+                ImagePuzzle(R.drawable.puzzle5_7),
             ),
             listOf(
-                ImagePuzzle(R.drawable.puzzle3_13),
-                ImagePuzzle(R.drawable.puzzle3_14),
-                ImagePuzzle(R.drawable.puzzle3_15),
-                ImagePuzzle(R.drawable.puzzle3_16)
-            )
-        )
+                ImagePuzzle(R.drawable.puzzle5_6),
+                ImagePuzzle(R.drawable.puzzle5_5),
+                ImagePuzzle(R.drawable.puzzle5_4),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle5_3),
+                ImagePuzzle(R.drawable.puzzle5_2),
+                ImagePuzzle(R.drawable.puzzle5_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle6_9),
+                ImagePuzzle(R.drawable.puzzle6_8),
+                ImagePuzzle(R.drawable.puzzle6_7),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle6_6),
+                ImagePuzzle(R.drawable.puzzle6_5),
+                ImagePuzzle(R.drawable.puzzle6_4),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle6_3),
+                ImagePuzzle(R.drawable.puzzle6_2),
+                ImagePuzzle(R.drawable.puzzle6_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle7_9),
+                ImagePuzzle(R.drawable.puzzle7_8),
+                ImagePuzzle(R.drawable.puzzle7_7),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle7_6),
+                ImagePuzzle(R.drawable.puzzle7_5),
+                ImagePuzzle(R.drawable.puzzle7_4),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle7_3),
+                ImagePuzzle(R.drawable.puzzle7_2),
+                ImagePuzzle(R.drawable.puzzle7_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle8_9),
+                ImagePuzzle(R.drawable.puzzle8_8),
+                ImagePuzzle(R.drawable.puzzle8_7),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle8_6),
+                ImagePuzzle(R.drawable.puzzle8_5),
+                ImagePuzzle(R.drawable.puzzle8_4),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle8_3),
+                ImagePuzzle(R.drawable.puzzle8_2),
+                ImagePuzzle(R.drawable.puzzle8_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle9_16),
+                ImagePuzzle(R.drawable.puzzle9_15),
+                ImagePuzzle(R.drawable.puzzle9_14),
+                ImagePuzzle(R.drawable.puzzle9_13),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle9_12),
+                ImagePuzzle(R.drawable.puzzle9_11),
+                ImagePuzzle(R.drawable.puzzle9_10),
+                ImagePuzzle(R.drawable.puzzle9_9),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle9_8),
+                ImagePuzzle(R.drawable.puzzle9_7),
+                ImagePuzzle(R.drawable.puzzle9_6),
+                ImagePuzzle(R.drawable.puzzle9_5),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle9_4),
+                ImagePuzzle(R.drawable.puzzle9_3),
+                ImagePuzzle(R.drawable.puzzle9_2),
+                ImagePuzzle(R.drawable.puzzle9_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle10_16),
+                ImagePuzzle(R.drawable.puzzle10_15),
+                ImagePuzzle(R.drawable.puzzle10_14),
+                ImagePuzzle(R.drawable.puzzle10_13),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle10_12),
+                ImagePuzzle(R.drawable.puzzle10_11),
+                ImagePuzzle(R.drawable.puzzle10_10),
+                ImagePuzzle(R.drawable.puzzle10_9),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle10_8),
+                ImagePuzzle(R.drawable.puzzle10_7),
+                ImagePuzzle(R.drawable.puzzle10_6),
+                ImagePuzzle(R.drawable.puzzle10_5),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle10_4),
+                ImagePuzzle(R.drawable.puzzle10_3),
+                ImagePuzzle(R.drawable.puzzle10_2),
+                ImagePuzzle(R.drawable.puzzle10_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle11_16),
+                ImagePuzzle(R.drawable.puzzle11_15),
+                ImagePuzzle(R.drawable.puzzle11_14),
+                ImagePuzzle(R.drawable.puzzle11_13),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle11_12),
+                ImagePuzzle(R.drawable.puzzle11_11),
+                ImagePuzzle(R.drawable.puzzle11_10),
+                ImagePuzzle(R.drawable.puzzle11_9),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle11_8),
+                ImagePuzzle(R.drawable.puzzle11_7),
+                ImagePuzzle(R.drawable.puzzle11_6),
+                ImagePuzzle(R.drawable.puzzle11_5),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle11_4),
+                ImagePuzzle(R.drawable.puzzle11_3),
+                ImagePuzzle(R.drawable.puzzle11_2),
+                ImagePuzzle(R.drawable.puzzle11_1),
+            ),
+        ),
+        listOf(
+            listOf(
+                ImagePuzzle(R.drawable.puzzle12_16),
+                ImagePuzzle(R.drawable.puzzle12_15),
+                ImagePuzzle(R.drawable.puzzle12_14),
+                ImagePuzzle(R.drawable.puzzle12_13),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle12_12),
+                ImagePuzzle(R.drawable.puzzle12_11),
+                ImagePuzzle(R.drawable.puzzle12_10),
+                ImagePuzzle(R.drawable.puzzle12_9),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle12_8),
+                ImagePuzzle(R.drawable.puzzle12_7),
+                ImagePuzzle(R.drawable.puzzle12_6),
+                ImagePuzzle(R.drawable.puzzle12_5),
+            ),
+            listOf(
+                ImagePuzzle(R.drawable.puzzle12_4),
+                ImagePuzzle(R.drawable.puzzle12_3),
+                ImagePuzzle(R.drawable.puzzle12_2),
+                ImagePuzzle(R.drawable.puzzle12_1),
+            ),
+        ),
     )
 }
