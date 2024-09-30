@@ -149,7 +149,7 @@ class ColorsGameViewModel(
     }
 
     private fun reset() {
-        val isGenerated = (0..2).random() == 0
+        val isGenerated = (0..1).random() == 0
         if (isGenerated) {
             updateOpenQuestionDialog(true)
             question = QuestionsSource.questions[Random.nextInt(0, 13)]

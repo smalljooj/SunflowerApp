@@ -10,7 +10,7 @@ data class User (
     val id: Int = 0,
     val name: String = "",
     val level: Int = 1,
-    val image: Int = R.drawable.icon1,
+    val image: Int = R.drawable.avatar_1,
     val imageTitle: Int = R.string.icon1_default,
     val profileId: Int = 0,
     val anxiety: Int = 0,

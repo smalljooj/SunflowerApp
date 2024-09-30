@@ -71,15 +71,14 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            Row(
-                horizontalArrangement = Arrangement.Center,
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Button(
                     onClick = {
                         viewModel.updateOpenDialog(true)
                     },
-                    shape = RoundedCornerShape(50.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.Transparent
                     )
@@ -88,22 +87,22 @@ fun HomeScreen(
                         painter = painterResource(userState.image),
                         contentDescription = stringResource(userState.imageTitle),
                         modifier = Modifier
-                            .size(50.dp)
+                            .size(150.dp)
                             .clip(CircleShape)
                             .background(Color.Gray)
                     )
-                    Spacer(modifier = Modifier.width(5.dp))
-                    Column {
-                        Text(
-                            text = userState.name,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        Text(
-                            text = stringResource(R.string.level, userState.level),
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    }
                 }
+                Spacer(modifier = Modifier.width(5.dp))
+                Text(
+                    text = userState.name,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                /*
+                Text(
+                    text = stringResource(R.string.level, userState.level),
+                    color = MaterialTheme.colorScheme.primary
+                )
+                 */
             }
         }
     ) {
@@ -236,7 +235,7 @@ fun ProfileDialog(
                     )
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Text(text = stringResource(R.string.level, user.level))
+                //Text(text = stringResource(R.string.level, user.level))
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedButton(
                     onClick = {

@@ -5,7 +5,7 @@ import androidx.annotation.StringRes
 import com.github.smalljooj.sunflowerapp.R
 
 data class ProfileUiState(
-    @DrawableRes val image: Int = R.drawable.icon1,
-    @StringRes val title: Int = R.string.icon1_default,
+    @DrawableRes val image: Int = R.drawable.avatar_1,
+    @StringRes val title: Int = R.string.icon_lion,
     val name: String = ""
 )

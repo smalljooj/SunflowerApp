@@ -1,5 +1,7 @@
 package com.github.smalljooj.sunflowerapp.data.util
 
+import android.util.Log
+import com.github.smalljooj.sunflowerapp.R
 import com.github.smalljooj.sunflowerapp.data.repositories.UserRepository
 import com.github.smalljooj.sunflowerapp.data.types.model.Emotion
 import com.github.smalljooj.sunflowerapp.data.types.model.Question
@@ -24,7 +26,6 @@ suspend fun answerQuestion(
                                 user.value.anger + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.DISGUST -> {
                     user.update {
@@ -33,16 +34,14 @@ suspend fun answerQuestion(
                                 user.value.disgust + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.ANXIETY -> {
                     user.update {
                         it.copy(
-                            disgust = if(user.value.anxiety + 1 < 5)
+                            anxiety = if(user.value.anxiety + 1 < 5)
                                 user.value.anxiety + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.JEALOUSY -> {
                     user.update {
@@ -51,7 +50,6 @@ suspend fun answerQuestion(
                                 user.value.jealousy + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.HAPPINESS -> {
                     user.update {
@@ -60,7 +58,6 @@ suspend fun answerQuestion(
                                 user.value.happiness + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.SADNESS -> {
                     user.update {
@@ -69,7 +66,6 @@ suspend fun answerQuestion(
                                 user.value.sadness + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
             }
         }
@@ -83,7 +79,6 @@ suspend fun answerQuestion(
                                 user.value.anger + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.DISGUST -> {
                     user.update {
@@ -92,16 +87,14 @@ suspend fun answerQuestion(
                                 user.value.disgust + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.ANXIETY -> {
                     user.update {
                         it.copy(
-                            disgust = if(user.value.anxiety + 1 < 5)
+                            anxiety = if(user.value.anxiety + 1 < 5)
                                 user.value.anxiety + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.JEALOUSY -> {
                     user.update {
@@ -110,7 +103,6 @@ suspend fun answerQuestion(
                                 user.value.jealousy + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.HAPPINESS -> {
                     user.update {
@@ -119,7 +111,6 @@ suspend fun answerQuestion(
                                 user.value.happiness + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.SADNESS -> {
                     user.update {
@@ -128,7 +119,6 @@ suspend fun answerQuestion(
                                 user.value.sadness + 1 else 5
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
             }
         } else {
@@ -140,7 +130,6 @@ suspend fun answerQuestion(
                                 user.value.anger - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.DISGUST -> {
                     user.update {
@@ -149,16 +138,14 @@ suspend fun answerQuestion(
                                 user.value.disgust - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.ANXIETY -> {
                     user.update {
                         it.copy(
-                            disgust = if (user.value.anxiety - 1 >= 0)
+                            anxiety = if (user.value.anxiety - 1 >= 0)
                                 user.value.anxiety - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.JEALOUSY -> {
                     user.update {
@@ -167,7 +154,6 @@ suspend fun answerQuestion(
                                 user.value.jealousy - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.HAPPINESS -> {
                     user.update {
@@ -176,7 +162,6 @@ suspend fun answerQuestion(
                                 user.value.happiness - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
                 Emotion.SADNESS -> {
                     user.update {
@@ -185,9 +170,130 @@ suspend fun answerQuestion(
                                 user.value.sadness - 1 else 0
                         )
                     }
-                    offlineUserRepository.updateUser(user.value)
                 }
             }
         }
     }
+    if (user.value.anger > user.value.happiness &&
+        user.value.anger > user.value.disgust &&
+        user.value.anger > user.value.anxiety &&
+        user.value.anger > user.value.sadness &&
+        user.value.anger > user.value.jealousy
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_4
+                )
+            }
+        }
+    } else if (user.value.disgust > user.value.happiness &&
+        user.value.disgust > user.value.anger &&
+        user.value.disgust > user.value.anxiety &&
+        user.value.disgust > user.value.sadness &&
+        user.value.disgust > user.value.jealousy
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_3
+                )
+            }
+        }
+    } else if (user.value.anxiety > user.value.happiness &&
+            user.value.anxiety > user.value.anger &&
+            user.value.anxiety > user.value.disgust &&
+            user.value.anxiety > user.value.sadness &&
+            user.value.anxiety > user.value.jealousy
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_7
+                )
+            }
+        }
+    } else if (user.value.jealousy > user.value.happiness &&
+        user.value.jealousy > user.value.anger &&
+        user.value.jealousy > user.value.disgust &&
+        user.value.jealousy > user.value.sadness &&
+        user.value.jealousy > user.value.anxiety
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_6
+                )
+            }
+        }
+    } else if (user.value.happiness > user.value.jealousy &&
+        user.value.happiness > user.value.anger &&
+        user.value.happiness > user.value.disgust &&
+        user.value.happiness > user.value.sadness &&
+        user.value.happiness > user.value.anxiety
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_2
+                )
+            }
+        }
+    } else if (user.value.sadness > user.value.jealousy &&
+        user.value.sadness > user.value.anger &&
+        user.value.sadness > user.value.disgust &&
+        user.value.sadness > user.value.happiness &&
+        user.value.sadness > user.value.anxiety
+    ) {
+        if (user.value.image == R.drawable.avatar_1 ||
+            user.value.image == R.drawable.avatar_2 ||
+            user.value.image == R.drawable.avatar_3 ||
+            user.value.image == R.drawable.avatar_4 ||
+            user.value.image == R.drawable.avatar_5 ||
+            user.value.image == R.drawable.avatar_6 ||
+            user.value.image == R.drawable.avatar_7
+        ) {
+            user.update {
+                it.copy(
+                    image = R.drawable.avatar_5
+                )
+            }
+        }
+    }
+    offlineUserRepository.updateUser(user.value)
 }
