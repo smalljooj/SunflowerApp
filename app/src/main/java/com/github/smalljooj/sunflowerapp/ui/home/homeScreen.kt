@@ -39,9 +39,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.github.smalljooj.sunflowerapp.data.types.model.ImageModel
-import com.github.smalljooj.sunflowerapp.data.types.model.User
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import co.yml.charts.axis.AxisData
+import co.yml.charts.ui.barchart.BarChart
+import co.yml.charts.ui.barchart.models.BarChartData
 import com.github.smalljooj.sunflowerapp.R
 import com.github.smalljooj.sunflowerapp.ui.commonComposables.QuestionDialog
 import com.github.smalljooj.sunflowerapp.ui.profile.ProfileImageDialog
@@ -55,6 +57,24 @@ fun HomeScreen(
     goToMemoryGame: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
 ) {
+    val xAxisData = AxisData.Builder()
+        .steps(viewModel.barsData.size)
+        .axisLabelAngle(40f)
+        .labelData { index -> viewModel.barsData[index].label }
+        .build()
+
+    val yAxisData = AxisData.Builder()
+        .steps(5)
+        .labelAndAxisLinePadding(20.dp)
+        .axisOffset(10.dp)
+        .labelData { index -> (index * ( 5 / 5 )).toString() }
+        .build()
+    val barChartData = BarChartData(
+        chartData = viewModel.barsData,
+        xAxisData = xAxisData,
+        yAxisData = yAxisData,
+        backgroundColor = Color.Transparent
+    )
     val userState by viewModel.userState.collectAsState()
     if (viewModel.openQuestionDialog) {
         QuestionDialog(question = viewModel.question, send = {
@@ -64,8 +84,8 @@ fun HomeScreen(
     }
     if (viewModel.openDialog) {
         ProfileDialog(
-            user = userState,
-            onDismiss = { viewModel.updateOpenDialog(false) }
+            onDismiss = { viewModel.updateOpenDialog(false) },
+            barChartData = barChartData
         )
     }
     Scaffold(
@@ -97,12 +117,6 @@ fun HomeScreen(
                     text = userState.name,
                     color = MaterialTheme.colorScheme.primary
                 )
-                /*
-                Text(
-                    text = stringResource(R.string.level, userState.level),
-                    color = MaterialTheme.colorScheme.primary
-                )
-                 */
             }
         }
     ) {
@@ -175,12 +189,13 @@ fun GameCard(
 
 @Composable
 fun ProfileDialog(
-    user: User,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier,
+    barChartData: BarChartData,
     viewModel: ProfileViewModel = viewModel(factory = ProfileViewModel.Factory)
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val user by viewModel.user.collectAsState()
     if (viewModel.openDialog){
         ProfileImageDialog({
             viewModel.updateOpenDialog(false)
@@ -188,11 +203,18 @@ fun ProfileDialog(
             viewModel.updateTitle(it.content)
         })
     }
+    if (viewModel.openChartDialog){
+        ChartDialog(
+            modifier = Modifier,
+            onDismiss = { viewModel.updateChartDialog(false) },
+            barChartData = barChartData
+        )
+    }
     Dialog(onDismissRequest = { onDismiss() }) {
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .height(400.dp)
+                .height(450.dp)
                 .padding(16.dp),
             shape = RoundedCornerShape(16.dp)
         ) {
@@ -212,7 +234,7 @@ fun ProfileDialog(
                     )
                 ) {
                     Image(
-                        painter = painterResource(uiState.image),
+                        painter = painterResource(user.image),
                         contentDescription = stringResource(uiState.title),
                         modifier = Modifier
                             .size(150.dp)
@@ -239,6 +261,14 @@ fun ProfileDialog(
                 Spacer(modifier = Modifier.height(10.dp))
                 OutlinedButton(
                     onClick = {
+                        viewModel.updateChartDialog(true)
+                    },
+                ) {
+                    Text(stringResource(id = R.string.chart))
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Button(
+                    onClick = {
                         viewModel.updateUser()
                         onDismiss()
                     },
@@ -249,3 +279,22 @@ fun ProfileDialog(
         }
     }
 }
+
+@Composable
+fun ChartDialog(
+    modifier: Modifier,
+    onDismiss: () -> Unit,
+    barChartData: BarChartData
+) {
+    Dialog(onDismissRequest = onDismiss ) {
+        Column(
+            modifier = modifier
+                .clip(RoundedCornerShape(20.dp))
+        ) {
+            BarChart(
+                modifier = Modifier
+                .height(300.dp), barChartData = barChartData)
+        }
+    }
+}
+

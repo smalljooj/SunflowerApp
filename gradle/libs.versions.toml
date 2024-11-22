@@ -16,6 +16,8 @@ roomVersion = "2.6.1"
 serializationPlugin = "1.9.10"
 kspVersion = "1.9.20-1.0.14"
 glideVersion = "1.0.0-beta01"
+yChartsVersion = "2.1.0"
+playServicesBasementVersion = "18.4.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +42,8 @@ room-runtime =  { group = "androidx.room", name = "room-runtime", version.ref = 
 room-compiler =  { group = "androidx.room", name = "room-compiler", version.ref = "roomVersion" }
 room-ktx =  { group = "androidx.room", name = "room-ktx", version.ref = "roomVersion" }
 bumptech-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glideVersion"  }
+ycharts = { group = "co.yml", name = "ycharts", version.ref = "yChartsVersion"  }
+play-services-basement = { group = "com.google.android.gms", name = "play-services-basement", version.ref = "playServicesBasementVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

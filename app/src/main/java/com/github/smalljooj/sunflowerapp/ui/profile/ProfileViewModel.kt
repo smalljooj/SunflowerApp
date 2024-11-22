@@ -31,12 +31,19 @@ class ProfileViewModel(
         )
     )
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
+
     var openDialog by mutableStateOf(false)
+        private set
+    var openChartDialog by mutableStateOf(false)
         private set
 
     fun updateOpenDialog(value: Boolean) {
         openDialog = value
     }
+    fun updateChartDialog(value: Boolean) {
+        openChartDialog = value
+    }
+
     fun updateImage(@DrawableRes image: Int) {
         _uiState.update {
             it.copy(

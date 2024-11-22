@@ -34,6 +34,8 @@ class SnakeGameViewModel(
         private set
     var question = QuestionsSource.questions[Random.nextInt(0, 13)]
 
+    var isDirectionUpdated: Boolean = false
+
     fun updateOpenQuestionDialog(value: Boolean) {
         openQuestionDialog = value
     }
@@ -61,13 +63,15 @@ class SnakeGameViewModel(
                 }
             }
             is SnakeGameEvent.UpdateDirection -> {
-                updateDirection(event.offset, event.canvasWidth)
+                viewModelScope.launch {
+                    updateDirection(event.offset, event.canvasWidth)
+                }
             }
         }
     }
 
     private fun updateDirection(offset: Offset, canvasWidth: Int) {
-        if (!uiState.value.isGameOver) {
+        if (!uiState.value.isGameOver && !isDirectionUpdated) {
             val cellSize = canvasWidth / _uiState.value.xAxisGridSize
             val tapX = (offset.x / cellSize).toInt()
             val tapY = (offset.y / cellSize).toInt()
@@ -83,8 +87,8 @@ class SnakeGameViewModel(
                     }
                 )
             }
+            isDirectionUpdated = true
         }
-
     }
 
     private fun updateGame(currentGame: SnakeGameUiState): SnakeGameUiState{
@@ -134,6 +138,7 @@ class SnakeGameViewModel(
             newSnake = newSnake.toMutableList()
             newSnake.removeAt(newSnake.size - 1)
         }
+        isDirectionUpdated = false
         return currentGame.copy(snake = newSnake, food = newFood)
     }
 

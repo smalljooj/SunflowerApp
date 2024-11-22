@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.github.smalljooj.sunflowerapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -66,11 +66,15 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.accompanist)
 
+    // graphic
+    implementation(libs.ycharts)
+
     // ImageView
     //implementation(libs.bumptech.glide)
 
     // Room
     implementation(libs.room.runtime)
+    implementation(libs.play.services.basement)
     ksp(libs.room.compiler)
     implementation(libs.room.ktx)
 
